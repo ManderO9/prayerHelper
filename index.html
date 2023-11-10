@@ -91,7 +91,7 @@
     </div>
 
     <div class="shuffle-container">
-        <button id="shuffle-suras-button">Shuffle</button>
+        <button onclick="ShuffleSuras()">Shuffle</button>
         <div class="center-content suras-to-use">
         </div>
     </div>
@@ -241,10 +241,6 @@
             // Add a new surah to the list of suras
             AddSurah(newSurahTextArea.value);
         }
-
-        var shuffleSurasButton = document.querySelector("#shuffle-suras-button");
-        shuffleSurasButton.onclick = ShuffleSuras;
-
     </script>
 </body>
 
