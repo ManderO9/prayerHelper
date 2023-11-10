@@ -93,8 +93,6 @@
     <div class="shuffle-container">
         <button id="shuffle-suras-button">Shuffle</button>
         <div class="center-content suras-to-use">
-            <span class="selected-surah-name">surah</span>
-            <span class="selected-surah-name">surah</span>
         </div>
     </div>
 
@@ -208,11 +206,22 @@
 
         // Displays to the user two random suras from the list of suras that he knows
         function ShuffleSuras() {
+            // If there are no suras
+            if (suras.length == 0)
+                // Don't do anything
+                return;
+
+            // Get the html element that will contain the randomly picked suras
             var shffledSurasContainer = document.querySelector(".suras-to-use");
+
+            // Get two random indexes in the suras list
             var index1 = Math.floor(Math.random() * suras.length);
             var index2 = Math.floor(Math.random() * suras.length);
 
+            // Clear any existing content in the container
             shffledSurasContainer.innerHTML = "";
+
+            // Add the two suras to the container
             shffledSurasContainer.innerHTML += '<span class="selected-surah-name">' + suras[index1] + '</span>';
             shffledSurasContainer.innerHTML += '<span class="selected-surah-name">' + suras[index2] + '</span>';
         }
@@ -233,7 +242,7 @@
             AddSurah(newSurahTextArea.value);
         }
 
-        var shuffleSurasButton= document.querySelector("#shuffle-suras-button");
+        var shuffleSurasButton = document.querySelector("#shuffle-suras-button");
         shuffleSurasButton.onclick = ShuffleSuras;
 
     </script>
