@@ -2,10 +2,10 @@
     "name": "prayer helper",
     "icons": [
         {
-            "src": "icon.svg",
+            "src": "./icon.svg",
             "type": "image/svg+xml"
         }
     ],
-    "start_url": "/index.html",
+    "start_url": "./index.html",
     "display": "standalone"
 }
