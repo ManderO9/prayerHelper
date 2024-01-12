@@ -159,3 +159,6 @@ newSurahButton.onclick = () => {
     // Add a new surah to the list of suras
     AddSurah(newSurahTextArea.value);
 }
+
+// On page load, select two random suras and show them to the user
+ShuffleSuras();
