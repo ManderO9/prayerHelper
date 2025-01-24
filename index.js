@@ -17,7 +17,7 @@ const registerServiceWorker = async () => {
     }
 };
 
-registerServiceWorker();
+// registerServiceWorker();
 
 
 
@@ -29,15 +29,17 @@ const suras = []
 
 // The key in the storage to the suras array
 const surasKey = "suras";
+const rotationKey = "suras_rotation";
 
 // Get html element that we will display the suras in
-const surasContainer = document.querySelectorAll(".known-suras-container")[0];
-
+const surasContainer = document.querySelector("#suras-list-container");
 
 // Returns html element that will get displayed using the sura's name
-function SuraHtml(suraName) {
-    // suraName = suraName.replace("\\", "\\\\").replace("\"", "\\\"").replace("'", "\\'");
-    return '<span onclick="DeleteSurah(\'' + suraName + '\')" class="surah-name">' + suraName + ' &#x2A09;</span>';
+function SuraHtml(suraName, first) {
+    if(first)
+        return '<div onclick="RotateSurah()"><span>' + suraName + '</span><span>&#x2A09;</span></div>';
+
+    return '<div><span>' + suraName + '</span></div>';
 }
 
 // Loads already existing suras from local storage
@@ -59,11 +61,25 @@ function LoadSuras() {
     // Clear the content of the suras container
     surasContainer.innerHTML = "";
 
+    // Get the number of rotations to do
+    var rotations = localStorage.getItem(rotationKey) ?? 0;
+    rotations = rotations % suras.length;
+
+    // Rotate the suras a set number of times so they are at the order they last were at
+    const newSuras = [];
+    for(var k = 0; k < suras.length; k++){
+        newSuras.push(suras[(k + rotations) % suras.length]);
+    }
+
+    var first = true;
     // For each sura
-    suras.forEach(sura => {
+    newSuras.forEach(sura => {
+
         // Add it to the html element
-        surasContainer.innerHTML += SuraHtml(sura);
+        surasContainer.innerHTML += SuraHtml(sura, first);
+        first = false;
     });
+
 }
 
 // Adds a sura to the list of suras that the user knows
@@ -122,29 +138,6 @@ function DeleteSurah(surahName) {
 }
 
 
-// Displays to the user two random suras from the list of suras that he knows
-function ShuffleSuras() {
-    // If there are no suras
-    if (suras.length == 0)
-        // Don't do anything
-        return;
-
-    // Get the html element that will contain the randomly picked suras
-    var shffledSurasContainer = document.querySelector(".suras-to-use");
-
-    // Get two random indexes in the suras list
-    var index1 = Math.floor(Math.random() * suras.length);
-    var index2 = Math.floor(Math.random() * suras.length);
-
-    // Clear any existing content in the container
-    shffledSurasContainer.innerHTML = "";
-
-    // Add the two suras to the container
-    shffledSurasContainer.innerHTML += '<span class="selected-surah-name">' + suras[index1] + '</span>';
-    shffledSurasContainer.innerHTML += '<span class="selected-surah-name">' + suras[index2] + '</span>';
-}
-
-
 // Load suras from local storage and display them to the user
 LoadSuras();
 
@@ -160,5 +153,35 @@ newSurahButton.onclick = () => {
     AddSurah(newSurahTextArea.value);
 }
 
-// On page load, select two random suras and show them to the user
-ShuffleSuras();
+function Delay(time) {
+    return new Promise((resolve) => {
+        setTimeout(() => resolve(), time);
+    });
+}
+
+async function RotateSurah(){
+    if(surasContainer.children.length < 2)
+        return;
+
+    var firstSurah = surasContainer.children[0];
+    var secondSurah = surasContainer.children[1];
+
+    surasContainer.classList.add("animate-suras-list")
+    await Delay(300);
+
+    var cross = firstSurah.children[1];
+    firstSurah.removeChild(cross);
+    secondSurah.appendChild(cross);
+
+    surasContainer.removeChild(firstSurah);    
+    surasContainer.appendChild(firstSurah);
+
+    surasContainer.classList.remove("animate-suras-list")
+    
+    firstSurah.onclick = () => {};
+    secondSurah.onclick = RotateSurah;
+
+    var rotations = localStorage.getItem(rotationKey) ?? 0;
+    rotations++;
+    localStorage.setItem(rotationKey, rotations);
+}

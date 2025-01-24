@@ -3,28 +3,7 @@
 }
 
 body {
-    background: linear-gradient(to bottom, rgb(47, 2, 46), rgb(25, 24, 25)) no-repeat fixed;
-}
-
-.surah-name,
-.selected-surah-name {
-    padding: 4px 8px;
-    border-radius: 8px;
-    margin: 8px;
-    display: inline-block;
-}
-
-.surah-name {
-    background-color: rgb(118, 26, 105);
-
-}
-
-.selected-surah-name {
-    background-color: rgb(161, 7, 92);
-}
-
-.surah-name:hover {
-    cursor: pointer;
+    background: linear-gradient(to bottom, rgb(5, 5, 5), rgb(15, 15, 15)) no-repeat fixed;
 }
 
 .center-content {
@@ -32,9 +11,6 @@ body {
     align-content: center;
 }
 
-p {
-    margin-left: 16px;
-}
 
 button {
     color: aliceblue;
@@ -48,19 +24,6 @@ button:hover {
     cursor: pointer;
 }
 
-.new-surah-container {
-    padding: 16px;
-    text-align: right;
-    margin-bottom: 32px;
-}
-
-.shuffle-container {
-    padding: 16px;
-    text-align: right;
-    margin-top: 32px;
-    margin-bottom: 32px;
-}
-
 textarea {
     width: 100%;
     resize: none;
@@ -69,4 +32,49 @@ textarea {
     border: 1px solid white;
     outline: none;
     border-radius: 4px;
+}
+
+.suras-list {
+    padding-top: 32px;
+    padding-bottom: 32px;
+    transition: all 1000ms ease-in-out;
+}
+.suras-list > div {
+    background-color: rgb(15, 15, 15);
+    padding: 16px 18px 16px 18px;
+    margin-bottom: 16px;
+    border-radius: 4px;
+    border: 1px solid rgb(25,25,25);
+
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+}
+
+@keyframes animate-suras {
+    0% {
+        transform: translateY(0%);
+    }
+    100% {
+        transform: translateY(calc(-100%  - 16px));
+    }
+}
+
+@keyframes animate-suras-and-opacity {
+    0% {
+        opacity: 1;
+        transform: translateY(0%);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(calc(-100%  + 16px));
+    }
+}
+
+.animate-suras-list > div {
+    animation: animate-suras ease-in-out 300ms forwards;
+}
+
+.animate-suras-list > div:nth-child(1) {
+    animation: animate-suras-and-opacity ease-in-out 300ms;
 }
