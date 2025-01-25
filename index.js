@@ -80,6 +80,12 @@ function LoadSuras() {
         first = false;
     });
 
+    for(var i = 0; i < surasContainer.children.length; i++){
+        let element = surasContainer.children[i];
+        element.ondblclick = () => {
+            ShowNotification("Are you sure you want to delete this surah: "+ element.textContent, element.textContent);
+        };
+    }
 }
 
 // Adds a sura to the list of suras that the user knows
@@ -184,4 +190,34 @@ async function RotateSurah(){
     var rotations = localStorage.getItem(rotationKey) ?? 0;
     rotations++;
     localStorage.setItem(rotationKey, rotations);
+}
+
+
+
+function ShowNotification(message, surahName) {
+
+    const notificationOverlay = document.createElement("div");
+    notificationOverlay.classList.add("notification-container");
+    notificationOverlay.onclick = () => {
+        document.body.removeChild(notificationOverlay);
+    }
+
+    var content = document.createElement("div");
+    notificationOverlay.appendChild(content);
+
+    var messageElement = document.createElement("div");
+    messageElement.textContent = message;
+    content.appendChild(messageElement);
+    
+    var closeButton = document.createElement("button");
+    closeButton.classList.add("action-button");
+    closeButton.textContent = "Delete";
+    content.appendChild(closeButton);
+
+    closeButton.onclick = () => {
+        DeleteSurah(surahName);
+        document.body.removeChild(notificationOverlay);
+    }
+    
+    document.body.appendChild(notificationOverlay);
 }
