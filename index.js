@@ -221,3 +221,20 @@ function ShowNotification(message, surahName) {
     
     document.body.appendChild(notificationOverlay);
 }
+
+
+const downloadButton = document.querySelector("#download-button");
+
+downloadButton.onclick = () => {
+    var storedSuras = localStorage.getItem(surasKey);
+
+    var blob = new Blob([storedSuras], {type: "application/json"});
+
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'suras.json';
+    a.click();
+    window.URL.revokeObjectURL(url);
+}
+

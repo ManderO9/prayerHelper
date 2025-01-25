@@ -128,3 +128,11 @@ textarea {
 .new-surah-container >div{
     text-align: right;
 }
+
+
+.download-container {
+    padding: 24px 0;
+}
+.download-container > div{
+    text-align: right;
+}
